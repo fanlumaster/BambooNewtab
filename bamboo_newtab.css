@@ -1,0 +1,181 @@
+:root {
+  --bg-color: #f8f9fa; /* Classic light grey background */
+  --search-shadow: 0 1px 6px rgba(32, 33, 36, .28);
+  --search-shadow-hover: 0 1px 6px rgba(32, 33, 36, .28), 0 2px 4px rgba(32, 33, 36, .1); /* Slightly deeper shadow */
+  --icon-size: 56px;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: var(--bg-color);
+  font-family: 'Roboto', arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center vertically */
+}
+
+/* --- Search Bar Container --- */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px; /* Increased to accommodate user preference */
+  margin-bottom: 40px;
+  z-index: 100;
+}
+
+.search-bar {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  border-radius: 24px;
+  height: 46px;
+  padding: 0 14px;
+  box-shadow: var(--search-shadow);
+  border: 1px solid transparent; /* Keeps sizing consistent if we add border later */
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.search-bar:hover,
+.search-bar:focus-within {
+  box-shadow: var(--search-shadow-hover);
+  background-color: #fff;
+  border-color: rgba(223, 225, 229, 0); 
+}
+
+/* Engine Selector (Left side) */
+.engine-selector {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.engine-selector:hover {
+  background-color: #f1f3f4;
+}
+
+.engine-selector img {
+  width: 26px;
+  height: 26px;
+}
+
+/* Search Input */
+#searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  line-height: 24px;
+  color: #202124;
+  outline: none;
+  height: 100%;
+}
+
+/* Search Icon (Right side action) */
+.search-icon-action {
+  width: 24px;
+  height: 24px;
+  fill: #9aa0a6;
+  cursor: pointer;
+}
+
+/* --- Engine Dropdown --- */
+.engine-dropdown {
+  position: absolute;
+  top: 50px; /* Below search bar */
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  padding: 8px 0;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* Helper class to hide things */
+.hidden {
+  display: none !important;
+}
+
+.engine-option {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #3c4043;
+}
+
+.engine-option:hover {
+  background-color: #e8f0fe;
+}
+
+.engine-option img {
+  margin-right: 12px;
+  width: 16px;
+  height: 16px;
+}
+
+/* --- App Grid (Android Style) --- */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* Increased columns for wider layout */
+  gap: 24px 32px;
+  max-width: 1200px;
+}
+
+.app-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.app-item:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.app-icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border-radius: 22px; /* Squircle radius */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white; /* Clean background for favicons */
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden; /* Clip image to radius */
+}
+
+.app-icon img {
+  width: 32px; /* Optimal size for 64px container */
+  height: 32px;
+  object-fit: contain;
+}
+
+.app-name {
+  font-size: 13px;
+  color: #202124;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8); /* Readability */
+  text-align: center;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
