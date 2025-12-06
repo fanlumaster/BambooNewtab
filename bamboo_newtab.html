@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Bamboo New Tab</title>
   <link rel="stylesheet" href="bamboo_newtab.css">
+  <link rel="icon" href="icons/icon48.png">
   <!-- Preconnect to Google Fonts for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,6 +75,31 @@
         <div class="right-actions">
           <button id="modalCancelBtn" class="btn-cancel">Cancel</button>
           <button id="modalSaveBtn" class="btn-save">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transparent Overlay for Context Menu -->
+  <div id="menuOverlay" class="menu-overlay hidden"></div>
+
+  <!-- Action Menu (Context Menu) -->
+  <div id="actionMenu" class="action-menu hidden">
+    <div class="action-menu-item" id="menuEditBtn">Edit</div>
+    <div class="action-menu-item danger" id="menuRemoveBtn">Remove</div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 320px;">
+      <h3>Delete Shortcut?</h3>
+      <p style="color: #5f6368; font-size: 14px; margin-bottom: 24px;">
+        Are you sure you want to remove this shortcut? This action cannot be undone.
+      </p>
+      <div class="modal-actions">
+        <div class="right-actions" style="margin-left: auto; width: 100%; display: flex; justify-content: flex-end; gap: 12px;">
+          <button id="confirmCancelBtn" class="btn-cancel">Cancel</button>
+          <button id="confirmDeleteBtn" class="btn-remove" style="border: none; background: #d93025; color: white;">Delete</button>
         </div>
       </div>
     </div>

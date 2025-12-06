@@ -96,6 +96,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalCancelBtn = document.getElementById("modalCancelBtn");
   const modalRemoveBtn = document.getElementById("modalRemoveBtn");
 
+  // Context Menu Elements
+  const actionMenu = document.getElementById("actionMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const menuEditBtn = document.getElementById("menuEditBtn");
+  const menuRemoveBtn = document.getElementById("menuRemoveBtn");
+  let activeMenuIndex = -1; // Track which shortcut's menu is open
+
+  // ... (existing code, ensure to verify if I need to skip lines or if I can just replace the chunk properly)
+  // Actually, I should just replace the context menu logic section down below.
+
+  // --- Shortcuts Logic --- (skipping to Context Menu Logic part)
+
+
   // Initial Data (only if nothing in localStorage)
   const defaultShortcuts = [
     { name: "YouTube", url: "https://www.youtube.com" },
@@ -143,15 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Edit Button
+      // Edit Button (Three dots)
       const editBtn = document.createElement("button");
       editBtn.className = "edit-btn";
       editBtn.innerHTML =
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>';
-      editBtn.title = "Edit shortcut";
+      editBtn.title = "More options";
       editBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        openEditModal(index);
+        showContextMenu(e, index);
       });
 
       // Icon
@@ -211,7 +224,96 @@ document.addEventListener("DOMContentLoaded", () => {
     appGrid.appendChild(addBtn);
   }
 
+  // --- Context Menu Logic ---
+
+  function showContextMenu(e, index) {
+    activeMenuIndex = index;
+    
+    // Position the menu
+    const btnRect = e.currentTarget.getBoundingClientRect();
+    const x = btnRect.right - 140; 
+    const y = btnRect.bottom;
+
+    actionMenu.style.left = `${Math.max(10, x)}px`;
+    actionMenu.style.top = `${y}px`;
+    
+    actionMenu.classList.remove("hidden");
+    menuOverlay.classList.remove("hidden"); // Show overlay
+  }
+
+  function hideContextMenu() {
+    actionMenu.classList.add("hidden");
+    menuOverlay.classList.add("hidden"); // Hide overlay
+    activeMenuIndex = -1;
+  }
+
+  // Click overlay to close menu
+  menuOverlay.addEventListener("click", () => {
+    hideContextMenu();
+  });
+
+  // Action: Edit
+  // Action: Edit
+  menuEditBtn.addEventListener("click", () => {
+    if (activeMenuIndex !== -1) {
+      const indexToEdit = activeMenuIndex;
+      
+      // Force disable interactions to prevent flicker
+      appGrid.style.pointerEvents = "none";
+      
+      openEditModal(indexToEdit);
+      hideContextMenu();
+    }
+  });
+
+  // Action: Remove
+  menuRemoveBtn.addEventListener("click", () => {
+    if (activeMenuIndex !== -1) {
+      const indexToDelete = activeMenuIndex; 
+      
+      // Force disable interactions on grid to prevent hover glitches during transition
+      appGrid.style.pointerEvents = "none";
+      
+      openConfirmModal(indexToDelete); 
+      hideContextMenu(); 
+    }
+  });
+
   // --- Modal Logic ---
+
+  // Confirmation Modal Elements
+  const confirmModal = document.getElementById("confirmModal");
+  const confirmCancelBtn = document.getElementById("confirmCancelBtn");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+  let deleteTargetIndex = -1;
+
+  function openConfirmModal(index) {
+    deleteTargetIndex = index;
+    confirmModal.classList.remove("hidden");
+  }
+
+  function closeConfirmModal() {
+    confirmModal.classList.add("hidden");
+    deleteTargetIndex = -1;
+    // Restore interactions
+    appGrid.style.pointerEvents = "";
+  }
+
+  confirmCancelBtn.addEventListener("click", closeConfirmModal);
+  
+  confirmDeleteBtn.addEventListener("click", () => {
+    if (deleteTargetIndex !== -1) {
+      shortcuts.splice(deleteTargetIndex, 1);
+      saveShortcuts();
+      closeConfirmModal();
+    }
+  });
+
+  // Close confirm modal on outside click
+  confirmModal.addEventListener("click", (e) => {
+    if (e.target === confirmModal) closeConfirmModal();
+  });
+
 
   function openEditModal(index) {
     editingIndex = index;
@@ -219,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (index === -1) {
       modalTitle.textContent = "Add Shortcut";
-      shortcutNameInput.value = "";
       shortcutNameInput.value = "";
       shortcutUrlInput.value = "";
       shortcutIconInput.value = "";
@@ -230,7 +331,8 @@ document.addEventListener("DOMContentLoaded", () => {
       shortcutNameInput.value = app.name;
       shortcutUrlInput.value = app.url;
       shortcutIconInput.value = app.manualIcon || "";
-      modalRemoveBtn.classList.remove("hidden");
+      // User requested to remove the "Remove" button from this modal since it's in the menu now.
+      modalRemoveBtn.classList.add("hidden");
     }
 
     // Auto focus name
@@ -239,6 +341,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeModal() {
     modalOverlay.classList.add("hidden");
+    // Restore interactions
+    appGrid.style.pointerEvents = "";
   }
 
   modalCancelBtn.addEventListener("click", closeModal);
