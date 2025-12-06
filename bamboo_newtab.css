@@ -1,7 +1,9 @@
 :root {
-  --bg-color: #f8f9fa; /* Classic light grey background */
+  --bg-color: #f8f9fa;
+  /* Classic light grey background */
   --search-shadow: 0 1px 6px rgba(32, 33, 36, .28);
-  --search-shadow-hover: 0 1px 6px rgba(32, 33, 36, .28), 0 2px 4px rgba(32, 33, 36, .1); /* Slightly deeper shadow */
+  --search-shadow-hover: 0 1px 6px rgba(32, 33, 36, .28), 0 2px 4px rgba(32, 33, 36, .1);
+  /* Slightly deeper shadow */
   --icon-size: 56px;
 }
 
@@ -13,15 +15,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center vertically */
+  justify-content: center;
+  padding-bottom: 20vh;
+  box-sizing: border-box;
+  /* Center vertically, but shifted up */
 }
 
 /* --- Search Bar Container --- */
 .search-wrapper {
   position: relative;
   width: 100%;
-  max-width: 1200px; /* Increased to accommodate user preference */
-  margin-bottom: 40px;
+  max-width: 700px;
+  /* Increased to accommodate user preference */
+  margin: 0 auto 40px;
   z-index: 100;
 }
 
@@ -29,11 +35,12 @@ body {
   background: #fff;
   display: flex;
   align-items: center;
-  border-radius: 24px;
-  height: 46px;
+  border-radius: 28px;
+  height: 52px;
   padding: 0 14px;
   box-shadow: var(--search-shadow);
-  border: 1px solid transparent; /* Keeps sizing consistent if we add border later */
+  border: 1px solid transparent;
+  /* Keeps sizing consistent if we add border later */
   transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -41,7 +48,7 @@ body {
 .search-bar:focus-within {
   box-shadow: var(--search-shadow-hover);
   background-color: #fff;
-  border-color: rgba(223, 225, 229, 0); 
+  border-color: rgba(223, 225, 229, 0);
 }
 
 /* Engine Selector (Left side) */
@@ -89,11 +96,12 @@ body {
 /* --- Engine Dropdown --- */
 .engine-dropdown {
   position: absolute;
-  top: 50px; /* Below search bar */
+  top: 50px;
+  /* Below search bar */
   left: 0;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   padding: 8px 0;
   width: 150px;
   display: flex;
@@ -130,8 +138,11 @@ body {
 /* --- App Grid (Android Style) --- */
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr); /* Increased columns for wider layout */
-  gap: 24px 32px;
+  grid-template-columns: repeat(8, 1fr);
+  /* Increased columns for wider layout */
+  /* Increased columns for wider layout */
+  gap: 4px 4px;
+  /* Even tighter gap */
   max-width: 1200px;
 }
 
@@ -139,13 +150,28 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.1s, background-color 0.2s;
+  padding: 12px;
+  border-radius: 12px;
+  /* Slightly reduced radius */
+  position: relative;
+  width: 112px;
+  /* Fixed width for square shape */
+  aspect-ratio: 1 / 1;
+  /* Force square */
+  justify-self: center;
+  /* Center in grid cell */
 }
 
-.app-item:active {
+.app-item:hover {
+  background-color: rgba(60, 64, 67, 0.1);
+}
+
+.app-item:not(:has(.edit-btn:hover)):active {
   transform: scale(0.95);
   opacity: 0.8;
 }
@@ -153,29 +179,218 @@ body {
 .app-icon {
   width: var(--icon-size);
   height: var(--icon-size);
-  border-radius: 22px; /* Squircle radius */
+  border-radius: 22px;
+  /* Squircle radius */
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white; /* Clean background for favicons */
+  background-color: white;
+  /* Clean background for favicons */
   margin-bottom: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  overflow: hidden; /* Clip image to radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  /* Clip image to radius */
 }
 
 .app-icon img {
-  width: 32px; /* Optimal size for 64px container */
+  width: 32px;
+  /* Optimal size for 64px container */
   height: 32px;
   object-fit: contain;
 }
 
-.app-name {
-  font-size: 13px;
+/* --- Edit & Add Actions --- */
+.app-item {
+  position: relative;
+  /* For positioning edit button */
+}
+
+/* Edit Button (3 dots style) */
+.edit-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  /* Removed background */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  /* Hidden by default */
+  transition: opacity 0.2s, background 0.2s;
+  box-shadow: none;
+  /* Removed shadow */
+}
+
+.edit-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: #5f6368;
+}
+
+.app-item:hover .edit-btn {
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+
+.edit-btn:focus {
+  opacity: 1;
+}
+
+.edit-btn:hover {
+  background: #fff;
+}
+
+/* Add Shortcut Tile */
+.add-tile .app-icon {
+  background: #f1f3f4;
   color: #202124;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.8); /* Readability */
-  text-align: center;
-  max-width: 80px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.add-tile .app-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: #202124;
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Override global hidden for modal to allow transition */
+.modal-overlay.hidden {
+  display: flex !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.2s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-content h3 {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: #202124;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: #5f6368;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #dadce0;
+  font-size: 14px;
+  outline: none;
+  background: #f1f3f4;
+}
+
+.form-group input:focus {
+  background: white;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.right-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.btn-remove {
+  background: transparent;
+  border: 1px solid #dadce0;
+  color: #d93025;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-remove:hover {
+  background: #fce8e6;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid #dadce0;
+  color: #1a73e8;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-cancel:hover {
+  background: #f6fafe;
+}
+
+.btn-save {
+  background: #1a73e8;
+  border: none;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-save:hover {
+  background: #1558b0;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3);
 }

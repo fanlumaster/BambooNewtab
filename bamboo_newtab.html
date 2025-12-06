@@ -48,9 +48,34 @@
       </div>
     </div>
 
-    <!-- Android Style App Grid -->
     <div class="app-grid" id="appGrid">
       <!-- Shortcuts will be populated by JS -->
+    </div>
+  </div>
+
+  <!-- Edit Shortcut Modal -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 id="modalTitle">Edit Shortcut</h3>
+      <div class="form-group">
+        <label for="shortcutName">Name</label>
+        <input type="text" id="shortcutName" placeholder="My Site">
+      </div>
+      <div class="form-group">
+        <label for="shortcutUrl">URL</label>
+        <input type="text" id="shortcutUrl" placeholder="https://example.com">
+      </div>
+      <div class="form-group">
+        <label for="shortcutIcon">Icon URL (Optional)</label>
+        <input type="text" id="shortcutIcon" placeholder="https://example.com/favicon.ico">
+      </div>
+      <div class="modal-actions">
+        <button id="modalRemoveBtn" class="btn-remove hidden">Remove</button>
+        <div class="right-actions">
+          <button id="modalCancelBtn" class="btn-cancel">Cancel</button>
+          <button id="modalSaveBtn" class="btn-save">Done</button>
+        </div>
+      </div>
     </div>
   </div>
 
