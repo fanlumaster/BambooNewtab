@@ -35,10 +35,10 @@ body {
   background: #fff;
   display: flex;
   align-items: center;
-  border-radius: 28px;
-  height: 52px;
+  border-radius: 24px;
+  height: 46px;
   padding: 0 14px;
-  box-shadow: var(--search-shadow);
+  box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 1px rgba(223, 225, 229, 0);
   border: 1px solid transparent;
   /* Keeps sizing consistent if we add border later */
   transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -46,9 +46,33 @@ body {
 
 .search-bar:hover,
 .search-bar:focus-within {
-  box-shadow: var(--search-shadow-hover);
+  box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 1px rgba(223, 225, 229, 0);
   background-color: #fff;
   border-color: rgba(223, 225, 229, 0);
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 2px rgba(26, 115, 232, 0.4);
+  /* Distinct focus ring */
+}
+
+/* Keyframes for the pulse "flash" effect */
+@keyframes searchPulse {
+  0% {
+    box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 2px rgba(26, 115, 232, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 6px rgba(26, 115, 232, 0.2);
+  }
+
+  100% {
+    box-shadow: 0 1px 6px rgba(32, 33, 36, .28), 0 0 0 2px rgba(26, 115, 232, 0.4);
+  }
+}
+
+.search-bar.pulse {
+  animation: searchPulse 0.3s ease-out;
 }
 
 /* Engine Selector (Left side) */
@@ -79,7 +103,6 @@ body {
   background: transparent;
   border: none;
   font-size: 16px;
-  line-height: 24px;
   color: #202124;
   outline: none;
   height: 100%;
@@ -119,10 +142,12 @@ body {
 .engine-option {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
+  padding: 10px 12px;
   cursor: pointer;
   font-size: 14px;
   color: #3c4043;
+  margin: 0 4px;
+  border-radius: 8px;
 }
 
 .engine-option:hover {
@@ -453,7 +478,7 @@ body {
   color: #3c4043;
   display: flex;
   align-items: center;
-  transition: background-color 0.1s;
+  transition: background-color 0.05s;
   margin: 0 4px;
   border-radius: 4px;
 }

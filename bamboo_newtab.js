@@ -1,9 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
+  // Select the parent search-bar for visual effects
+  const searchBar = document.querySelector(".search-bar");
   const engineSelector = document.getElementById("engineSelector");
   const engineDropdown = document.getElementById("engineDropdown");
   const currentEngineIcon = document.getElementById("currentEngineIcon");
   const engineOptions = document.querySelectorAll(".engine-option");
+
+  // --- Visual Effects ---
+  // Pulse effect on click (flash highlight)
+  if (searchBar) {
+    searchBar.addEventListener("click", () => {
+      searchBar.classList.remove("pulse");
+      void searchBar.offsetWidth; // Trigger reflow to restart animation
+      searchBar.classList.add("pulse");
+    });
+
+    searchBar.addEventListener("animationend", () => {
+      searchBar.classList.remove("pulse");
+    });
+  }
 
   // Configuration for engines
   const engines = {
